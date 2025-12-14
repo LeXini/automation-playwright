@@ -1,0 +1,13 @@
+{
+  "name": "automation-playwright",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/LeXini/automation-playwright.git",
+  "author": "Marcos Biazus Aneris <marcos_biazus@hotmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.2"
+  },
+  "scripts": {}
+}

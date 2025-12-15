@@ -63,4 +63,31 @@ test.describe('Cadastro De Usuário', () => {
     expect(body.administrador).toBe('true')
     expect(body._id).toBe('0uxuPY0cbmQhpEz1')
   })
+
+  test('Editar usuário', async ({ request }) => {
+    const usuario = await request.put('/usuarios/iDCtyKqC3HXBw6TK', {
+      data: {
+        "nome": "Marcos12345",
+        "email": "marcos12345@teste.com",
+        "password": "marcos12345",
+        "administrador": "false"
+      }
+    });
+
+    expect(usuario.status()).toBe(200);
+
+    const body = await usuario.json();
+    expect(body.message).toBe('Registro alterado com sucesso')
+
+    const user = await request.get('/usuarios/iDCtyKqC3HXBw6TK');
+    const bodyUser = await user.json();
+
+    expect(bodyUser.nome).toBe('Marcos12345')
+    expect(bodyUser.email).toBe('marcos12345@teste.com')
+    expect(bodyUser.password).toBe('marcos12345')
+    expect(bodyUser.administrador).toBe('false')
+    expect(bodyUser._id).toBe('iDCtyKqC3HXBw6TK')
+
+  })
+
 })

@@ -1,0 +1,30 @@
+{
+    "cadastroSucesso": {
+        "type": "object",
+        "properties": {
+            "message": {
+                "type": "string"
+            },
+            "_id": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "message",
+            "_id"
+        ],
+        "additionalProperties": false
+    },
+    "deletaCadastroSucesso": {
+        "type": "object",
+        "properties": {
+            "message": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "message"
+        ],
+        "additionalProperties": false
+    }
+}

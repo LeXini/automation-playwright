@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { validateApiSchema } from '../support/utils/schemaValidator.ts';
+import { validateResponseUsuario } from '../support/utils/validations.ts';
 
 test.describe('Cadastro De Usuário', () => {
   test('Cadastrar um novo usuário', async ({ request }) => {
@@ -84,7 +85,7 @@ test.describe('Cadastro De Usuário', () => {
 
   })
 
-  test('Buscar usuário por ID', async ({ request }) => {
+  test.only('Buscar usuário por ID', async ({ request }) => {
     const response = await request.get('/usuarios/0uxuPY0cbmQhpEz1');
 
     const body = await response.json();
@@ -95,11 +96,7 @@ test.describe('Cadastro De Usuário', () => {
     // Validação do retorno da resposta da API
     expect(response.status()).toBe(200);
 
-    expect(body.nome).toBe('Fulano da Silva')
-    expect(body.email).toBe('fulano@qa.com')
-    expect(body.password).toBe('teste')
-    expect(body.administrador).toBe('true')
-    expect(body._id).toBe('0uxuPY0cbmQhpEz1')
+    validateResponseUsuario(body);
 
     // Validação de schema
     // Caminho relativo ao diretório 'schemas'
@@ -107,7 +104,7 @@ test.describe('Cadastro De Usuário', () => {
     expect(isSchemaValid).toBe(true);
   })
 
-  test.only('Editar usuário', async ({ request }) => {
+  test('Editar usuário', async ({ request }) => {
     const usuario = await request.put('/usuarios/C0s022MYLYAonh2r', {
       data: {
         "nome": "Marcos12345",

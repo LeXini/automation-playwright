@@ -1,0 +1,8 @@
+{
+    "cadastroUsuario": {
+        "nome": "Gremio",
+        "email": "gremio@teste.com",
+        "password": "gremio123",
+        "administrador": "true"
+    }
+}

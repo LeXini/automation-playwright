@@ -1,16 +1,17 @@
 import { test, expect } from '@playwright/test';
 import { validateApiSchema } from '../support/utils/schemaValidator.ts';
 import { validateResponseUsuario } from '../support/utils/validations.ts';
+import { UsuarioModel } from '../fixtures/usuarios.model.ts'
+import data from '../fixtures/usuarios.json'
 
 test.describe('Cadastro De Usuário', () => {
+
   test('Cadastrar um novo usuário', async ({ request }) => {
+
+  const usuarioCadastro = data.cadastroUsuario as UsuarioModel
+
     const response = await request.post('/usuarios', {
-      data: {
-        "nome": "Gremio",
-        "email": "gremio@teste.com",
-        "password": "gremio123",
-        "administrador": "true"
-      }
+      data: usuarioCadastro
     });
 
     const body = await response.json();
@@ -31,13 +32,11 @@ test.describe('Cadastro De Usuário', () => {
   })
 
   test('Remover um usuário', async ({ request }) => {
+
+    const usuarioCadastro = data.cadastroUsuario as UsuarioModel
+    
     const cadastro = await request.post('/usuarios', {
-      data: {
-        "nome": "Gremio",
-        "email": "gremio@teste.com",
-        "password": "gremio123",
-        "administrador": "true"
-      }
+      data: usuarioCadastro
     });
 
     const bodyCadastro = await cadastro.json();
@@ -85,7 +84,7 @@ test.describe('Cadastro De Usuário', () => {
 
   })
 
-  test.only('Buscar usuário por ID', async ({ request }) => {
+  test('Buscar usuário por ID', async ({ request }) => {
     const response = await request.get('/usuarios/0uxuPY0cbmQhpEz1');
 
     const body = await response.json();

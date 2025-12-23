@@ -1,14 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { validateApiSchema } from '../support/utils/schemaValidator.ts';
 import { validateResponseUsuario } from '../support/utils/validations.ts';
-import { UsuarioModel } from '../fixtures/usuarios.model.ts'
+import { cadastroUsuarioModel } from '../fixtures/usuarios.model.ts'
+import { infoUsuarioModel } from '../fixtures/usuarios.model.ts'
 import data from '../fixtures/usuarios.json'
 
 test.describe('Cadastro De Usuário', () => {
 
   test('Cadastrar um novo usuário', async ({ request }) => {
 
-  const usuarioCadastro = data.cadastroUsuario as UsuarioModel
+  const usuarioCadastro = data.cadastroUsuario as cadastroUsuarioModel
 
     const response = await request.post('/usuarios', {
       data: usuarioCadastro
@@ -33,7 +34,7 @@ test.describe('Cadastro De Usuário', () => {
 
   test('Remover um usuário', async ({ request }) => {
 
-    const usuarioCadastro = data.cadastroUsuario as UsuarioModel
+    const usuarioCadastro = data.cadastroUsuario as cadastroUsuarioModel
     
     const cadastro = await request.post('/usuarios', {
       data: usuarioCadastro
@@ -60,7 +61,10 @@ test.describe('Cadastro De Usuário', () => {
     expect(isSchemaValid).toBe(true);
   })
 
-  test('Listar usuários', async ({ request }) => {
+  test.only('Listar usuários', async ({ request }) => {
+
+    const usuarioInfo = data.usuarioInfo as infoUsuarioModel
+
     const response = await request.get('/usuarios');
 
     const body = await response.json();
@@ -71,11 +75,11 @@ test.describe('Cadastro De Usuário', () => {
     // Validação do retorno da resposta da API
     expect(response.status()).toBe(200);
 
-    expect(body.usuarios[0].nome).toBe('Fulano da Silva')
-    expect(body.usuarios[0].email).toBe('fulano@qa.com')
-    expect(body.usuarios[0].password).toBe('teste')
-    expect(body.usuarios[0].administrador).toBe('true')
-    expect(body.usuarios[0]._id).toBe('0uxuPY0cbmQhpEz1')
+    expect(body.usuarios[0].nome).toBe(usuarioInfo.nome)
+    expect(body.usuarios[0].email).toBe(usuarioInfo.email)
+    expect(body.usuarios[0].password).toBe(usuarioInfo.password)
+    expect(body.usuarios[0].administrador).toBe(usuarioInfo.administrador)
+    expect(body.usuarios[0]._id).toBe(usuarioInfo._id)
 
     // Validação de schema
     // Caminho relativo ao diretório 'schemas'

@@ -61,7 +61,7 @@ test.describe('Cadastro De Usuário', () => {
     expect(isSchemaValid).toBe(true);
   })
 
-  test.only('Listar usuários', async ({ request }) => {
+  test('Listar usuários', async ({ request }) => {
 
     const usuarioInfo = data.usuarioInfo as infoUsuarioModel
 
@@ -135,6 +135,34 @@ test.describe('Cadastro De Usuário', () => {
     expect(bodyUser.password).toBe('marcos12345')
     expect(bodyUser.administrador).toBe('false')
     expect(bodyUser._id).toBe('C0s022MYLYAonh2r')
+
+  })
+
+  test('Realizar Login', async ({ request }) => {
+
+    const usuarioInfo = data.usuarioInfo as infoUsuarioModel
+
+    const response = await request.post('/login', {
+      data: {
+        "email": usuarioInfo.email,
+        "password": usuarioInfo.password
+      }
+    });
+
+    const body = await response.json();
+
+    // Mostra o response da requisição
+    console.log(body)
+
+    // Validação do retorno da resposta da API
+    expect(response.status()).toBe(200);
+
+    expect(body.message).toBe("Login realizado com sucesso")
+
+    // Validação de schema
+    // Caminho relativo ao diretório 'schemas'
+    const isSchemaValid = validateApiSchema(body, '../../schemas/usuarios/sucesso/login-usuario.json', 'loginSucesso');
+    expect(isSchemaValid).toBe(true);
 
   })
 
